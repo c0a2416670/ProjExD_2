@@ -1,6 +1,7 @@
 import os
 import random
 import sys
+import time
 import pygame as pg
 
 
@@ -27,6 +28,31 @@ def check_bound(rct: pg.Rect) -> tuple[bool,bool]:  # 練習３
         tate = False
     return yoko, tate
 
+
+def gameover(screen: pg.Surface) -> None:  # 演習１
+    fonto = pg.font.Font(None, 80)
+
+    haikei = pg.Surface((WIDTH, HEIGHT))
+    pg.draw.rect(haikei, (0, 0, 0), pg.Rect(0,0,WIDTH,HEIGHT))
+    haikei.set_alpha(100)
+    screen.blit(haikei,[0,0])
+
+    txt = fonto.render("GAME OVER", True, (255, 255, 255))
+    txt_rct = txt.get_rect()
+    txt_rct.center = WIDTH/2, HEIGHT/2
+    screen.blit(txt,txt_rct)
+
+    koukaton = pg.image.load("./fig/8.png")
+    koukaton_rct = koukaton.get_rect()
+    koukaton_rct.center = WIDTH/4,HEIGHT/2
+    koukaton2_rct = koukaton.get_rect()
+    koukaton2_rct.center = WIDTH/1.35,HEIGHT/2
+    screen.blit(koukaton,koukaton_rct)
+    screen.blit(koukaton,koukaton2_rct)
+    pg.display.update()
+    time.sleep(5)
+
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -50,8 +76,9 @@ def main():
                 return
         screen.blit(bg_img, [0, 0]) 
 
+
         if kk_rct.colliderect(bb_rct):  # こうかとんRectと爆弾Rectが重なっていたら
-            print("GAME OVER")  # 練習４
+            gameover(screen)  # 練習４
             return
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
@@ -80,8 +107,8 @@ def main():
             vy *= -1 
         screen.blit(kk_img, kk_rct)
         screen.blit(bb_img, bb_rct)
-        pg.display.update()
         tmr += 1
+        pg.display.update()
         clock.tick(50)
 
 
