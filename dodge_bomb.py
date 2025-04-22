@@ -29,6 +29,7 @@ def check_bound(rct: pg.Rect) -> tuple[bool,bool]:  # 練習３
     return yoko, tate
 
 
+
 def gameover(screen: pg.Surface) -> None:  # 演習１
     fonto = pg.font.Font(None, 80)
 
@@ -53,6 +54,7 @@ def gameover(screen: pg.Surface) -> None:  # 演習１
     time.sleep(5)
 
 
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -70,6 +72,9 @@ def main():
     vx,vy = +5,+5
     clock = pg.time.Clock()
     tmr = 0
+
+    
+
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
@@ -105,6 +110,10 @@ def main():
             vx *= -1
         if not tate:  # 上下どちらかにはみ出ていたら
             vy *= -1 
+        # bb_imgs, bb_accs = init_bb_imgs()
+        # avx = vx*bb_accs[min(tmr//500, 9)]
+        # bb_img = bb_imgs[min(tmr//500, 9)]
+
         screen.blit(kk_img, kk_rct)
         screen.blit(bb_img, bb_rct)
         tmr += 1
